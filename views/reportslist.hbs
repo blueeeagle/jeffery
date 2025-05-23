@@ -1,0 +1,364 @@
+<style>
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    #chart {
+        max-width: 650px;
+        margin: 35px auto;
+    }
+
+
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.29.0/dist/apexcharts.min.css">
+
+<body>
+
+    <div class="theme-loader">
+        <div class="ball-scale">
+            <div class='contain'>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+
+
+            {{>header}}
+
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+
+
+                    {{>sidebar}}
+                    <div class="pcoded-content">
+                        <div class="pcoded-inner-content">
+
+                            <div class="main-body">
+                                <div class="page-wrapper">
+
+                                    <div class="page-header">
+                                        <div class="row align-items-end">
+                                            <div class="col-lg-8">
+                                                {{!-- <div class="page-header-title">
+                                                    <div class="d-inline">
+                                                        <h4>Today's Total Lunch Orders</h4>
+                                                        <span></span>
+                                                    </div>
+                                                </div> --}}
+                                            </div>
+                                            {{!-- <div class="col-lg-4">
+                                                <div class="page-header-breadcrumb">
+                                                    <ul class="breadcrumb-title">
+                                                        <li class="breadcrumb-item" style="float: left;">
+                                                            <a href="/"> <i class="feather icon-home"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="breadcrumb-item" style="float: left;"><a
+                                                                href="dashboard">Dashboard</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div> --}}
+                                        </div>
+                                    </div>
+
+                                    <div class="page-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <form action="/reportsList" id="intervalForm" method="get" style="
+    margin-top: -5%;
+">
+                                                        <label for="dropdown">Select an option:</label>
+                                                        <select id="dropdown" name="value">
+                                                            <option value="Weekly">Weekly</option>
+                                                            <option value="Monthly">Monthly</option>
+                                                            <option value="3Month">3 Month</option>
+                                                            <option value="6Month">6 Month</option>
+                                                            <option value="9Month">9 Month</option>
+                                                            <option value="Yearly">Yearly</option>
+
+                                                        </select>
+                                                        <button type="submit">Submit</button>
+                                                    </form>
+                                                    <div class="card-block">
+                                                        <div id="chart"> </div>
+                                                        <div id="chart1"> </div>
+                                                        <div id="chart2"> </div>
+                                                        <div id="chart3"> </div>
+                                                        <div id="chart4"> </div>
+                                                        <div id="chart5"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>footer}}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+
+        const yearlyOrdersArray = {{{ yearlyOrdersArray }}};
+        const currentYear = 2024;
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: yearlyOrdersArray // Use yearlyOrdersArray for chart data
+            }],
+            xaxis: {
+                categories: Array.from({ length: yearlyOrdersArray[0] }, (_, index) => String(currentYear + index))
+            }
+        };
+
+        var yearlyChart = new ApexCharts(document.querySelector("#chart1"), options);
+        yearlyChart.render();
+
+    </script>
+    <script>
+        const Monthly = {{{ monthlyOrderCounts }}};
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: Monthly // Use Monthly for chart data
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return parseInt(value); // Format the y-axis labels as integers
+                    }
+                }
+            }
+        };
+        var monthlyChart = new ApexCharts(document.querySelector("#chart"), options);
+        monthlyChart.render();
+    </script>
+    <script>
+        const NineMonthly = {{{ nineMonthsOrders }}};
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: NineMonthly // Use Monthly for chart data
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return parseInt(value); // Format the y-axis labels as integers
+                    }
+                }
+            }
+        };
+        var monthlyChart = new ApexCharts(document.querySelector("#chart2"), options);
+        monthlyChart.render();
+    </script>
+    <script>
+        const threeMonthly = {{{ threeMonthOrder }}};
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: threeMonthly // Use Monthly for chart data
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return parseInt(value); // Format the y-axis labels as integers
+                    }
+                }
+            }
+        };
+        var monthlyChart = new ApexCharts(document.querySelector("#chart3"), options);
+        monthlyChart.render();
+    </script>
+    <script>
+        const sixMonthly = {{{ sixMonthsOrders }}};
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: sixMonthly // Use Monthly for chart data
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return parseInt(value); // Format the y-axis labels as integers
+                    }
+                }
+            }
+        };
+        var monthlyChart = new ApexCharts(document.querySelector("#chart4"), options);
+        monthlyChart.render();
+    </script>
+
+    <script>
+        const perWeek = {{{ orderPerWeek }}};
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Orders',
+                data: perWeek // Use Monthly for chart data
+            }],
+            xaxis: {
+                categories: ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return parseInt(value); // Format the y-axis labels as integers
+                    }
+                }
+            }
+        };
+        var weeklyChart = new ApexCharts(document.querySelector("#chart5"), options);
+        weeklyChart.render();
+    </script>
+    {{!--
+    document.getElementById('intervalForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const selectedValue = document.getElementById('dropdown').value;
+    console.log("Selected value:", selectedValue);
+
+    if (selectedValue === 'Yearly') {
+
+    // Set the flag to true after rendering the yearly chart
+    } else if(selectedValue === 'Monthly') {
+
+
+
+    }
+    });
+    </script> --}}
+
+
+    <script>
+        function updateForm() {
+            // Get the value from the input field
+            var updatedValue = document.getElementById('updateField').value;
+
+            // Make an AJAX request to update the form on the server
+            // You need to implement the server-side logic for updating the form
+            // This could involve using fetch, jQuery.ajax, or any other AJAX method
+
+            // After the form is updated, close the modal
+            $('#updateModal').modal('hide');
+        }
+    </script>
+
+
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        let queryString = urlParams.get('value');
+        document.getElementById("dropdown").querySelector("option[value='" + queryString + "']").selected = true;
+    </script>
+
+</body>
