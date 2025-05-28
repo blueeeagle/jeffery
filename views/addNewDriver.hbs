@@ -126,7 +126,9 @@
                                                     <form action="/add_driver" method="post"
                                                         enctype="multipart/form-data">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">First Name</label>
+                                                            <label class="col-sm-2 col-form-label">{{First Name}}
+                                                            {{#if required}}<span style="color: red">*</span>{{/if}}
+                                                            </label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" name="firstName" class="form-control"
                                                                     placeholder="Enter First Name">
